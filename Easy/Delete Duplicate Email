@@ -1,4 +1,4 @@
--- Question-6
+-- Question 6
 
 -- Write a SQL query to delete all duplicate email entries in a table named Person, keeping only unique emails based on its smallest Id.
 
@@ -19,7 +19,7 @@
 -- | 2  | bob@example.com  |
 -- +----+------------------+
 
--- Code:
+-- SQL Code
 with cte as
 (
 select *, row_number() over(partition by email order by Id) 
