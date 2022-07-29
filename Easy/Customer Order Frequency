@@ -1,0 +1,64 @@
+1511. Customer Order Frequency
+
+Table: Customers
+
++---------------+---------+
+| Column Name   | Type    |
++---------------+---------+
+| customer_id   | int     |
+| name          | varchar |
+| country       | varchar |
++---------------+---------+
+customer_id is the primary key for this table.
+This table contains information about the customers in the company.
+ 
+
+Table: Product
+
++---------------+---------+
+| Column Name   | Type    |
++---------------+---------+
+| product_id    | int     |
+| description   | varchar |
+| price         | int     |
++---------------+---------+
+product_id is the primary key for this table.
+This table contains information on the products in the company.
+price is the product cost.
+ 
+
+Table: Orders
+
++---------------+---------+
+| Column Name   | Type    |
++---------------+---------+
+| order_id      | int     |
+| customer_id   | int     |
+| product_id    | int     |
+| order_date    | date    |
+| quantity      | int     |
++---------------+---------+
+order_id is the primary key for this table.
+This table contains information on customer orders.
+customer_id is the id of the customer who bought "quantity" products with id "product_id".
+Order_date is the date in format ('YYYY-MM-DD') when the order was shipped.
+ 
+
+Write an SQL query to report the customer_id and customer_name of customers who have spent at least $100 in each month of June and July 2020.
+
+Return the result table in any order.
+
+The query result format is in the following example.
+
+-- SQL QUERY
+
+with cte as
+(select customer_id, 
+sum(case when month(order_date)='06' then quantity*price else 0 end)as June,
+sum(case when month(order_date)='07' then quantity*price else 0 end)as July
+from product p inner join orders o using(product_id)
+ group by 1)
+
+select cte.customer_id as customer_id,name from cte join customers using(customer_id)
+where June>=100 and July>=100;
+
