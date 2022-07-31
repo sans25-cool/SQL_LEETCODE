@@ -1,0 +1,29 @@
+2314. The First Day of the Maximum Recorded Degree in Each City
+
+Table: Weather
+
++-------------+------+
+| Column Name | Type |
++-------------+------+
+| city_id     | int  |
+| day         | date |
+| degree      | int  |
++-------------+------+
+(city_id, day) is the primary key for this table.
+Each row in this table contains the degree of the weather of a city on a certain day.
+All the degrees are recorded in the year 2022.
+ 
+
+Write an SQL query to report the day that has the maximum recorded degree in each city. If the maximum degree was recorded for the same city multiple times, return the earliest day among them.
+
+Return the result table ordered by city_id in ascending order.
+
+The query result format is shown in the following example.
+
+--SQL QUERY
+
+select city_id,min(day) as day,degree from
+(select city_id,day,degree, dense_rank()over(partition by city_id order by degree desc)pp
+from weather)k
+where pp=1
+group by city_id;
