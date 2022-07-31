@@ -1,0 +1,45 @@
+2324. Product Sales Analysis IV
+
+Table: Sales
+
++-------------+-------+
+| Column Name | Type  |
++-------------+-------+
+| sale_id     | int   |
+| product_id  | int   |
+| user_id     | int   |
+| quantity    | int   |
++-------------+-------+
+sale_id is the primary key of this table.
+product_id is a foreign key to Product table.
+Each row of this table shows the ID of the product and the quantity purchased by a user.
+Table: Product
+
++-------------+------+
+| Column Name | Type |
++-------------+------+
+| product_id  | int  |
+| price       | int  |
++-------------+------+
+product_id is the primary key of this table.
+Each row of this table indicates the price of each product.
+Write an SQL query that reports for each user the product id on which the user spent the most money. In case the same user spent the most money on two or more products, report all of them.
+
+Return the resulting table in any order.
+
+The query result format is in the following example.
+
+--SQL CODE
+
+select user_id,product_id from
+(
+    select user_id, product_id,tp, dense_rank() over(partition by user_id order by tp desc)jk 
+    from
+    (
+        select user_id, p.product_id, sum(price*quantity) as tp
+        from sales s inner join product p
+         on s.product_id=p.product_id
+        group by product_id,user_id
+    )k
+)l
+where jk=1;
