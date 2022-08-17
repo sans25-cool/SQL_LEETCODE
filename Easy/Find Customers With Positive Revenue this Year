@@ -1,0 +1,25 @@
+1821. Find Customers With Positive Revenue this Year
+
+Table: Customers
+
++--------------+------+
+| Column Name  | Type |
++--------------+------+
+| customer_id  | int  |
+| year         | int  |
+| revenue      | int  |
++--------------+------+
+(customer_id, year) is the primary key for this table.
+This table contains the customer ID and the revenue of customers in different years.
+Note that this revenue can be negative.
+ 
+
+Write an SQL query to report the customers with postive revenue in the year 2021.
+
+Return the result table in any ordeR.
+
+--SQL QUERY
+
+SELECT CUSTOMER_ID FROM CUSTOMERS
+WHERE YEAR=2021
+AND REVENUE>0;
