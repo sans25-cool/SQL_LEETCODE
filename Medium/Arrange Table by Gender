@@ -1,0 +1,36 @@
+2308. Arrange Table by Gender
+
+Table: Genders
+
++-------------+---------+
+| Column Name | Type    |
++-------------+---------+
+| user_id     | int     |
+| gender      | varchar |
++-------------+---------+
+user_id is the primary key for this table.
+gender is ENUM of type 'female', 'male', or 'other'.
+Each row in this table contains the ID of a user and their gender.
+The table has an equal number of 'female', 'male', and 'other'.
+Write an SQL query to rearrange the Genders table such that the rows alternate between 'female', 'other', and 'male' in order. The table should be rearranged such that the IDs of each gender are sorted in ascending order.
+
+Return the result table in the mentioned order.
+
+The query result format is shown in the following example.
+
+-- SQL QUERY
+
+
+select user_id, gender
+from
+(
+select *, row_number() over(partition by gender order by user_id)rn,
+    case when gender= 'female' then 'a'
+    when gender ='other' then 'b'
+    else 'c'
+    end as gd
+    from genders
+    order by gd 
+)k
+order by rn , gd
+
