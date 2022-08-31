@@ -89,3 +89,26 @@ group by 1
 order by 1)
 
 select user_id, user_name, (credit+balance) as credit, (case when (credit+balance) <0 then 'Yes' else 'No' end) as credit_limit_breached from cte;
+
+
+
+select user_id, user_name,k.credit, case when
+credit <0 then 'Yes'
+else 'No'
+end as 'credit_limit_breached'
+from
+(
+select user_id, user_name, (credit+balance) as credit 
+from
+(
+select user_id, user_name,credit,sum(case
+when paid_by=user_id then -amount
+when paid_to=user_id then +amount
+                                     else 0
+end) as balance
+from users left join transactions 
+    on user_id  in (paid_by,paid_to)
+    group by 1
+    )l
+    )k
+    ;
