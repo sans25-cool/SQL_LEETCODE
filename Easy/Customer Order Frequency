@@ -62,3 +62,11 @@ from product p inner join orders o using(product_id)
 select cte.customer_id as customer_id,name from cte join customers using(customer_id)
 where June>=100 and July>=100;
 
+
+or 
+
+select customer_id, name from customers join orders using(customer_id)
+join product using(product_id)
+group by customer_id
+having sum(if (month(order_date)=6 , quantity,0)*price)>=100 and
+sum(if (month(order_date)=7 , quantity,0)*price)>=100;
